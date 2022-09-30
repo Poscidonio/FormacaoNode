@@ -63,8 +63,14 @@ app.get('/pergunta/:id', (req, res) => {
   }).then((pergunta) => {
     if (pergunta != undefined) {
       //se pergunta for diferente de vazia
-      res.render('pergunta', {
-        pergunta: pergunta,
+      Resposta.findAll({
+        where: { perguntaId: pergunta.id },
+        order: [['id', 'DESC']],
+      }).then((respostas) => {
+        res.render('pergunta', {
+          pergunta: pergunta,
+          respostas: respostas,
+        });
       });
     } else {
       // se a pergunta nao for encontrada
@@ -72,6 +78,7 @@ app.get('/pergunta/:id', (req, res) => {
     }
   });
 });
+
 //recebe os dados doo formulario
 app.post('/responder', (req, res) => {
   var corpo = req.body.corpo;
