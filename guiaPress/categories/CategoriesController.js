@@ -27,4 +27,25 @@ router.get('/admin/categories', (req, res) => {
   });
 });
 
+router.post('/categories/delete', (req, res) => {
+  var id = req.body.id;
+  //diferente de null
+  if (id != undefined) {
+    //NaN not a number / esta negando a validaçao se ele é um numero ou seja esta pegando o numero
+    if (!isNaN(id)) {
+      Category.destroy({
+        where: {
+          id: id,
+        },
+      }).then(() => {
+        res.redirect('/admin/categories');
+      });
+    } else {
+      //se nao for um numero
+      res.redirect('/admin/categories');
+    }
+  } else {
+    res.redirect('/admin/categories');
+  }
+});
 module.exports = router;
