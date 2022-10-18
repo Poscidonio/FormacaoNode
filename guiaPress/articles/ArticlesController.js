@@ -97,13 +97,30 @@ router.get('/articles/page/:num', (req, res) => {
   var offset = 0;
 
   if (isNaN(page) || page == 1) {
+    offset = 0;
+  } else {
+    offset = (parseInt(page) - 1) * 4;
   }
 
   Article.findAndCountAll({
     limit: 4,
-    offset: 10,
+    offset: offset,
+    order: [['id', 'DESC']],
   }).then((articles) => {
-    res.json(articles);
+    var next;
+    if (offset + 4 >= articles.count) {
+      next = false;
+    } else {
+      next = true;
+    }
+    var result = {
+      next: next,
+      articles: articles,
+      page: parseInt(page),
+    };
+    Category.findAll().then((categories) => {
+      res.render('admin/articles/page', { result: result, categories: categories });
+    });
   });
 });
 module.exports = router;

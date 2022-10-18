@@ -1,19 +1,30 @@
 const bodyParser = require('body-parser');
 const express = require('express');
+const session = require('express-session');
 const connection = require('./database/database');
 const app = express();
 
 const categoriesController = require('./categories/CategoriesController');
 const articlesController = require('./articles/ArticlesController');
+const usersController = require('./users/UsersController');
 
 //importando models
 const Article = require('./articles/Article');
 const Category = require('./categories/Category');
+const User = require('./users/User');
 
 //view engine
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
+
+//sessions
+app.use(
+  session({
+    secret: 'textoaleatorioparaaumentaraseguracadasessao',
+    cookie: { maxAge: 30000 },
+  })
+);
 
 //body parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,10 +43,34 @@ connection
 //rotas
 app.use('/', categoriesController);
 app.use('/', articlesController);
+app.use('/', usersController);
 
+//testando as rotas de login com sessao e leitura
+/* app.get('/session', (req, res) => {
+  req.session.treinamento = 'Formação node.JS';
+  req.session.ano = 2019;
+  req.session.email = 'gui@gmail.com';
+  req.session.user = {
+    username: 'gui',
+    email: 'gui@gmail.com',
+    id: 10,
+  };
+  res.send('Sessão gerada!');
+});
+
+app.get('/leitura', (req, res) => {
+  res.json({
+    treinamento: req.session.treinamento,
+    ano: req.session.ano,
+    email: req.session.email,
+    user: req.session.user,
+  });
+});
+ */
 app.get('/', (req, res) => {
   Article.findAll({
     order: [['id', 'DESC']],
+    limit: 4,
   }).then((articles) => {
     Category.findAll().then((categories) => {
       res.render('index', { articles: articles, categories: categories });
