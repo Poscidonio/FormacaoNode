@@ -45,6 +45,31 @@ router.get('/login', (req, res) => {
 router.post('/authenticate', (req, res) => {
   var email = req.body.email;
   var password = req.body.password;
+
+  User.findOne({ where: { email: email } }).then((user) => {
+    // se existe um usuario com esse email
+    if (user != undefined) {
+      //valida a senha
+      var correct = bcrypt.compare(password, user.password);
+      if (correct) {
+        req.session.user = {
+          id: user.id,
+          email: user.email,
+        };
+        res.redirect('admin/articles');
+      } else {
+        res.redirect('/login');
+      }
+    } else {
+      res.redirect('/login');
+    }
+  });
+});
+
+//sistema de logout do usuario
+router.get('/logout', (req, res) => {
+  req.session.user = undefined;
+  res.redirect('/');
 });
 
 module.exports = router;
