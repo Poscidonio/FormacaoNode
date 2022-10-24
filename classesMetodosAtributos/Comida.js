@@ -8,19 +8,19 @@ class Comida {
   }
 
   //metodos
-  FazerPedido() {
+  AnotarPedido() {
     console.log('.....');
   }
 
-  Adicionar() {
+  SeparaIngredientes() {
     console.log('.....');
   }
 
-  DiminuirQuantidade() {
+  PrepararPedido() {
     console.log('.....');
   }
 
-  Remover() {
+  FinalizarPedido() {
     console.log('.......');
   }
 }
