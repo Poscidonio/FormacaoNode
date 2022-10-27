@@ -69,7 +69,7 @@
     />
     <button
       type="button"
-      onclick="createGame()"
+      onclick="updateGame()"
     >
       Editar
     </button>
@@ -77,10 +77,11 @@
   <body></body>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   <script>
-    function createGame() {
-      var titleInput = document.getElementById('title');
-      var yearInput = document.getElementById('year');
-      var priceInput = document.getElementById('price');
+    function updateGame() {
+      var idInput = document.getElementById('idEdit');
+      var titleInput = document.getElementById('titleEdit');
+      var yearInput = document.getElementById('yearEdit');
+      var priceInput = document.getElementById('priceEdit');
 
       var game = {
         title: titleInput.value,
@@ -91,7 +92,7 @@
       var id = idInput.value;
 
       axios
-        .post('http://localhost:8000/game/' + id, game)
+        .put('http://localhost:8000/game/' + id, game)
         .then((response) => {
           if (response.status == 200) {
             alert('Game atualizado !!');
@@ -100,6 +101,18 @@
         .catch((err) => {
           console.log(err);
         });
+    }
+
+    function createGame() {
+      var titleInput = document.getElementById('title');
+      var yearInput = document.getElementById('year');
+      var priceInput = document.getElementById('price');
+
+      var game = {
+        title: titleInput.value,
+        year: yearInput.value,
+        price: priceInput.value,
+      };
 
       axios
         .post('http://localhost:8000/game', game)
