@@ -11,6 +11,22 @@
       content="width=device-width, initial-scale=1.0"
     />
     <title>Loja de games</title>
+
+    <h2>Login</h2>
+    <input
+      type="text"
+      name="email"
+      id="email"
+      placeholder="exemplo@email.com"
+    />
+    <br />
+    <input
+      type="password"
+      name="password"
+      id="password"
+      placeholder="***************"
+    />
+    <button onclick="login()">Entrar</button>
     <hr />
     <h4>Lista de games</h4>
     <ul id="games"></ul>
@@ -77,6 +93,35 @@
   <body></body>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   <script>
+    function login() {
+      var emailField = document.getElementById('email');
+      var passwordField = document.getElementById('password');
+
+      var email = emailField.value;
+      var password = passwordField.value;
+
+      axios
+        .post('http://localhost:8000/auth', {
+          email,
+          password,
+        })
+        .then((res) => {
+          var token = res.data.token;
+          alert('LOGADO !!!!' + token);
+        })
+        .catch((err) => {
+          alert('Login incorreto .....');
+        });
+    }
+
+    var axiosConfig = {
+      headers: {
+        Authorization:
+          'Bearer ' +
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjUsImVtYWlsIjoiZ3VpbGhlcm1lQGdtYWlsLmNvbSIsImlhdCI6MTY2NzI2OTU1MiwiZXhwIjoxNjY3NDQyMzUyfQ.DRHc4SfcxbtRVV7AGYZ2HWOzMVUFbh755we0ppqslY8',
+      },
+    };
+
     function updateGame() {
       var idInput = document.getElementById('idEdit');
       var titleInput = document.getElementById('titleEdit');
