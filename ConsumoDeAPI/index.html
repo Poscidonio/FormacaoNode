@@ -93,6 +93,12 @@
   <body></body>
   <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
   <script>
+    var axiosConfig = {
+      headers: {
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
+      },
+    };
+
     function login() {
       var emailField = document.getElementById('email');
       var passwordField = document.getElementById('password');
@@ -107,7 +113,8 @@
         })
         .then((res) => {
           var token = res.data.token;
-          alert('LOGADO !!!!' + token);
+          localStorage.setItem('token', token);
+          axiosConfig.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
         })
         .catch((err) => {
           alert('Login incorreto .....');
@@ -116,9 +123,7 @@
 
     var axiosConfig = {
       headers: {
-        Authorization:
-          'Bearer ' +
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjUsImVtYWlsIjoiZ3VpbGhlcm1lQGdtYWlsLmNvbSIsImlhdCI6MTY2NzI2OTU1MiwiZXhwIjoxNjY3NDQyMzUyfQ.DRHc4SfcxbtRVV7AGYZ2HWOzMVUFbh755we0ppqslY8',
+        Authorization: 'Bearer ' + localStorage.getItem('token'),
       },
     };
 
@@ -160,7 +165,7 @@
       };
 
       axios
-        .post('http://localhost:8000/game', game)
+        .post('http://localhost:8000/game', game, axiosConfig)
         .then((response) => {
           if (response.status == 200) {
             alert('Game cadastrado');
@@ -174,7 +179,7 @@
     function deleteGame(ListItem) {
       var id = ListItem.getAttribute('data-id');
       axios
-        .delete('http://localhost:8000/game/' + id)
+        .delete('http://localhost:8000/game/' + id, axiosConfig)
         .then((response) => {
           alert('Game deletado !');
         })
@@ -196,7 +201,7 @@
     }
 
     axios
-      .get('http://localhost:8000/games')
+      .get('http://localhost:8000/games', axiosConfig)
       .then((response) => {
         var games = response.data;
         var list = document.getElementById('games');
