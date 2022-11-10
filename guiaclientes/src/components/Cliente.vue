@@ -2,32 +2,60 @@
   <!-- aqui estamos com reatividade twoWay com leitura e escrita ou 
 seja assim que alterar ele reagiaa as alterações momentaniamente  
 em todos os lugares que estao chamando o componente-->
-  <div id="cliente">
+  <div :class="{ cliente: !isPremium, clienteBlack: isPremium }">
     <h2>{{ cliente.nome }}</h2>
     <p>Descrição do cliente: {{ cliente.descricao }}</p>
-    <p>Email: {{ cliente.email }}</p>
-    <p>Idade: {{ cliente.idade }}</p>
+    <p>Email: {{ cliente.email | processarEmail }}</p>
+    <!-- condição de V ou F para exibição do campo  
+    se for verdade exibe a idade -->
+    <p v-if="showIdade === true">Idade: {{ cliente.idade }}</p>
+    <!-- se for falso exibe esta mensagem  -->
+    <p v-else>O usuario escondeu a idade</p>
     <hr />
+    <button @click="mudarCor($event)">Mudar a cor</button>
+    <button @click="emitirEventoDelete">Deletar</button>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      isPremium: true,
+    };
   },
   props: {
-    nome: String,
-    descricao: String,
-    email: String,
-    idade: Number,
     cliente: Object,
+    showIdade: Boolean,
+  },
+  methods: {
+    mudarCor: function ($event) {
+      console.log($event);
+      /* sempre colocar o this na frnte quando se st referenciando ao metodo */
+      this.isPremium = !this.isPremium;
+    },
+    emitirEventoDelete: function () {
+      console.log('Emitindo do filho !!!');
+      this.$emit('meDelete', { idDoCliente: this.cliente.id, teste: 'Qualquer coisa !!!!', component: this });
+    },
+    testar: function () {
+      console.log('Testando para valer !');
+      alert('isso nao é um teste');
+    },
+  },
+  filters: {
+    processarEmail: function (value) {
+      return value.toUpperCase();
+    },
   },
 };
 </script>
 
 <style scoped>
-#cliente {
+.cliente {
   color: blue;
+}
+.clienteBlack {
+  color: black;
 }
 </style>
