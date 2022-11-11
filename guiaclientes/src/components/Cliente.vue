@@ -5,7 +5,7 @@ em todos os lugares que estao chamando o componente-->
   <div :class="{ cliente: !isPremium, clienteBlack: isPremium }">
     <h2>{{ cliente.nome }}</h2>
     <p>Descrição do cliente: {{ cliente.descricao }}</p>
-    <p>Email: {{ cliente.email | processarEmail }}</p>
+    <p>Email: {{ cliente.email }}</p>
     <!-- condição de V ou F para exibição do campo  
     se for verdade exibe a idade -->
     <p v-if="showIdade === true">Idade: {{ cliente.idade }}</p>
@@ -14,6 +14,7 @@ em todos os lugares que estao chamando o componente-->
     <hr />
     <button @click="mudarCor($event)">Mudar a cor</button>
     <button @click="emitirEventoDelete">Deletar</button>
+    <h4>Id especial: {{ idEspecial }}</h4>
   </div>
 </template>
 
@@ -46,6 +47,11 @@ export default {
   filters: {
     processarEmail: function (value) {
       return value.toUpperCase();
+    },
+    computed: {
+      idEspecial: function () {
+        return this.cliente.email + this.cliente.nome + this.cliente.id;
+      },
     },
   },
 };

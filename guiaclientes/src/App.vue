@@ -1,5 +1,17 @@
 <template>
   <div id="app">
+    <div class="buttons">
+      <button class="button is-primary">Primary</button>
+      <button class="button is-link">Link</button>
+    </div>
+
+    <div class="buttons">
+      <button class="button is-info">Info</button>
+      <button class="button is-success">Success</button>
+      <button class="button is-warning">Warning</button>
+      <button class="button is-danger">Danger</button>
+    </div>
+
     <h1>Guia clientes</h1>
     <!-- Com Props -->
     <!-- twoWay -->
@@ -26,7 +38,7 @@
       <Cliente />-->
       <!-- percorrera toda array de clientes e exibirao comforme o id -->
       <div
-        v-for="(cliente, index) in clientes"
+        v-for="(cliente, index) in orderClientes"
         :key="cliente.id"
       >
         <h1>{{ index }}</h1>
@@ -77,6 +89,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import Cliente from './components/Cliente';
 export default {
   name: 'App',
@@ -145,6 +158,11 @@ export default {
       /* maneira e remover eventos dentro de um array */
       var novoArray = this.clientes.filter((cliente) => cliente.id != id);
       this.clientes = novoArray;
+    },
+  },
+  computed: {
+    orderClientes: function () {
+      return _.orderBy(this.clientes, ['nome'], ['asc']);
     },
   },
 };
