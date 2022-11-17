@@ -18,7 +18,12 @@
         </div>
 
         <div class="content">
-          <button class="button is-dark">Mudar sprit</button>
+          <button
+            class="button is-dark"
+            @click="mudarSprite"
+          >
+            Mudar sprit
+          </button>
         </div>
       </div>
     </div>
@@ -61,7 +66,7 @@ export default {
     },
   },
   methods: {
-    mudarSprit: function () {
+    mudarSprite: function () {
       if (this.isFront) {
         this.isFront = false;
         this.currentImg = this.pokemon.back;
