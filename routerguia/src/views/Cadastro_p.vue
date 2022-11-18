@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h4>Rota pai</h4>
     <input
       type="text"
       name="email"
@@ -17,6 +18,7 @@
     <button>TESTE !!</button>
 
     <h4>{{ parametroDaRota }}</h4>
+    <router-view />
   </div>
 </template>
 
