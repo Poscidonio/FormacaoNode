@@ -52,9 +52,9 @@ class User {
 
   async update(id, email, name, role) {
     var user = await this.findById(id);
-    if (user) {
+    if (user != undefined) {
       var editUser = {};
-      if (email) {
+      if (email != undefined) {
         if (email != user.email) {
           var result = await this.findAll(email);
           if (result == false) {
@@ -63,11 +63,36 @@ class User {
         }
       }
 
-      if (name) {
+      if (name != undefined) {
         editUser.name = name;
+      }
+
+      if (role != undefined) {
+        editUser.role = role;
+      }
+
+      try {
+        await knex.update(editUser).where({ id: id }).table('users');
+        return { status: true };
+      } catch (err) {
+        return { status: false, err: 'O email  ja esta cadastrado !!!' };
       }
     } else {
       return { status: false, err: 'O usuário não existe !!' };
+    }
+  }
+
+  async delete(id) {
+    var user = await this.findById(id);
+    if (user != undefined) {
+      try {
+        await knex.delete().where({ id: id }).table('users');
+        return { status: true };
+      } catch (err) {
+        return { status: false, err: err };
+      }
+    } else {
+      return { status: false, err: 'O usuario nao existe para que seja excluido !' };
     }
   }
 }
