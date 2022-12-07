@@ -1,14 +1,17 @@
+npm install jest --save
+
 npm install express --save
-
-npm install ejs --save
-
-npm install body-parser --save
 
 npm install mongoose --save
 
-npm install nodemailer --save
+npm install jsonwebtoken --save
 
----------------- MongoDB ----------------
+--Resolve problema de dependencias--
+npm install @types/jest
+
+npm install supertest
+
+---- mongoDB ----
 
 ~mongo - abre o servidor
 
@@ -16,7 +19,7 @@ npm install nodemailer --save
 
 ~show dbs - mostra os bancos
 
-~use agendamento - criar no mongoDB
+~use guiapics - criar no mongoDB
 
 ~show collections - mostras as collections
 
