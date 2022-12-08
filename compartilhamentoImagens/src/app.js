@@ -6,12 +6,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 mongoose
-  .connect('mongodb://localhost:2701/guiapics')
+  .connect('mongodb://localhost:27017/guiapics')
   .then(() => {
-    console.log('Conectando com o banco');
+    // console.log('Conectando com o banco');
   })
   .catch((err) => {
-    console.log();
+    console.log(err);
   });
 
 app.get('/', (req, res) => {
