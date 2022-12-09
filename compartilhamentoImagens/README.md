@@ -8,6 +8,8 @@ npm install jsonwebtoken --save
 
 npm install bcrypt
 
+npm install jsonwebtoken
+
 --Resolve problema de dependencias--
 npm install @types/jest
 

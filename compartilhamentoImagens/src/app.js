@@ -3,6 +3,8 @@ let app = express();
 let mongoose = require('mongoose');
 let user = require('./models/User');
 let bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
+let JWTSecret = 'qualuqerCoisaParaToken';
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -46,6 +48,40 @@ app.post('/user', async (req, res) => {
   } catch (err) {
     res.sendStatus(500);
   }
+});
+
+app.post('/auth', async (req, res) => {
+  let { email, password } = req.body;
+
+  let user = await User.findOne({ email: email });
+
+  if (user == undefined) {
+    res.statusCode = 403;
+    res.json({ errors: { email: 'Email nao cadastrado' } });
+    return;
+  }
+
+  let isPasswordRight = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordRight) {
+    res.statusCode = 403;
+    res.json({ errors: { password: 'senha incorreta' } });
+    return;
+  }
+
+  jwt.sign({ email, name: user.name, id: user._id }, JWTSecret, { expiresIn: '48h' }, (err, token) => {
+    if (err) {
+      res.sendStatus(500);
+      console.log(err);
+    } else {
+      res.json({ token });
+    }
+  });
+});
+
+app.delete('/user/:email', async (req, res) => {
+  await User.deleteOne({ email: req.params.email });
+  res.sendStatus(200);
 });
 
 module.exports = app;
