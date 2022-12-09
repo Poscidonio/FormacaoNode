@@ -13,11 +13,11 @@ describe('Cadastro de usuario', () => {
       .post('/user')
       .send(user)
       .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.email).toEqual(email);
+        expect(res.statusCode) == 200;
+        expect(res.body.email) == email;
       })
       .catch((err) => {
-        fail(err);
+        throw err;
       });
   });
 
@@ -28,7 +28,7 @@ describe('Cadastro de usuario', () => {
       .post('/user')
       .send(user)
       .then((res) => {
-        expect(res.statusCode).toEqual(400);
+        expect(res.statusCode) == 400;
       })
       .catch((err) => {
         fail(err);
@@ -45,22 +45,22 @@ describe('Cadastro de usuario', () => {
       .post('/user')
       .send(user)
       .then((res) => {
-        expect(res.statusCode).toEqual(200);
-        expect(res.body.email).toEqual(email);
+        expect(res.statusCode) == 200;
+        expect(res.body.email) == email;
 
-        request
+        return request
           .post('/user')
           .send(user)
           .then((res) => {
-            expect(res.statusCode).toEqual(200);
-            expect(res.body.email).toEqual(email);
+            expect(res.statusCode) == 400;
+            expect(res.body.error).toEqual('Email já cadastrado');
           })
           .catch((err) => {
-            fail(err);
+            throw err;
           });
       })
       .catch((err) => {
-        fail(err);
+        throw err;
       });
   });
 });
