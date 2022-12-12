@@ -40,6 +40,36 @@ app.get('/pagar', async (req, res) => {
   }
 });
 
-app.listen(3000, (req, res) => {
+app.post('/notificacao', (req, res) => {
+  var id = req.query.id;
+
+  setTimeout(() => {
+    var filtro = {
+      'order.id': id,
+    };
+    mercadoPago.payment
+      .search({
+        qs: filtro,
+      })
+      .then((data) => {
+        var pagamento = data.body.results[0];
+
+        if (pagamento != undefined) {
+          console.log(pagamento);
+          console.log(pagamento.external_reference);
+          console.log(pagamento.status); // aproved
+        } else {
+          console.log('Pagamento nao existe !!');
+        }
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, 20000);
+  res.send('ok');
+});
+
+app.listen(80, (req, res) => {
   console.log('Servidor rodando !');
 });
