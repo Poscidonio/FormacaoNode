@@ -1,9 +1,10 @@
 const nodemailer = require('nodemailer');
 
 let transporter = nodemailer.createTransport({
-  host: 'smtp-mail.outlook.com',
+  //aqui buscar quais configurações do seu servidor pois o git barrou o exemplo
+  host: '',
   port: 587,
-  secure: true,
+  secure: true, //se tiver seguraça ativa é true senao false
   auth: {
     //colocar suas credenciais
     smtpuser: 'teste@hotmail.com',
@@ -13,7 +14,7 @@ let transporter = nodemailer.createTransport({
 
 transporter
   .sendMail({
-    from: 'TESTE <guilhermeposcidonio@hotmail.com>',
+    from: 'TESTE <teste@hotmail.com>',
     to: 'guilhermeposcidonio@gmail.com',
     subject: 'Aoba meu fi',
     text: ' estou fazendo um teste ',
