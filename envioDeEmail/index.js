@@ -7,8 +7,8 @@ let transporter = nodemailer.createTransport({
   secure: true, //se tiver seguraça ativa é true senao false
   auth: {
     //colocar suas credenciais
-    smtpuser: 'teste@hotmail.com',
-    smtppass: '12345abs',
+    smtpuser: 'teste@hotmail.com', // email que envia
+    smtppass: '', //senha do email que envia
   },
 });
 
